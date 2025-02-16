@@ -1,9 +1,10 @@
 import { Certificate } from "./Certificate";
 import { Instructor } from "./Instructor";
 import { Participant } from "./Participant";
+import { Registration } from "./Registration";
 
 export class Activity {
-    private activityId: number;
+    private activityId: string;
     private activityName: string;
     private organizer: string;
     private maxParticipant: number;
@@ -12,20 +13,21 @@ export class Activity {
     private status: string;
     private approvalRequest: boolean;
     private certificateIssued: boolean;
-    private schedule: File;
+    private schedule: File | null;
 
     private instructor:Instructor;
     private certificate:Certificate;
+    private registration:Registration | null;
     private isDeleted:boolean;
 
-    constructor(activityId: number, activityName: string, organizer: string, maxParticipant: number, activityPeriod: string, registrationPeriod: string, status: string, appovalRequest: boolean, certificateIssued: boolean, schedule: File, instructor: Instructor, certificate:Certificate){
+    constructor(activityId: string, activityName: string, organizer: string, maxParticipant: number, activityPeriod: string, registrationPeriod: string, appovalRequest: boolean, certificateIssued: boolean, schedule: File | null, instructor: Instructor, certificate:Certificate, registration:Registration | null){
         this.activityId = activityId;
         this.activityName = activityName;
         this.organizer = organizer;
         this.maxParticipant = maxParticipant;
         this.activityPeriod = activityPeriod;
         this.registrationPeriod = registrationPeriod;
-        this.status = status;
+        this.status = "Pending";
         this.approvalRequest = appovalRequest;
         this.certificateIssued = certificateIssued;
         this.schedule = schedule;
@@ -33,10 +35,11 @@ export class Activity {
         this.instructor = instructor;
         this.certificate = certificate;
         this.isDeleted = false;
+        this.registration = registration ?? null;
     }
 
      // Getters
-     public getActivityId(): number {
+     public getActivityId(): string {
         return this.activityId;
     }
 
@@ -84,6 +87,10 @@ export class Activity {
         return this.certificate;
     }
 
+    public getRegistration():Registration | null{
+        return this.registration;
+    }
+
     // Setters
     public setActivityName(name: string): void {
         this.activityName = name;
@@ -109,11 +116,11 @@ export class Activity {
         this.schedule = file;
     }
 
-    public createActivity():void {
+    // public createActivity():void {
         
-    }
+    // }
 
-    public updateActivity(activityId:number, activityName:string, organizer:string, maxParticipant:number):Activity | null {
+    public updateActivity(activityId:string, activityName:string, organizer:string, maxParticipant:number):Activity | null {
         // const activity = new Activity()
         if(this.activityId !== activityId){
             console.error(`Activity with ID ${activityId} not found!`);

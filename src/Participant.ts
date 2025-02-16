@@ -1,17 +1,19 @@
 import { Activity } from "./Activity";
+import { AppNotification } from "./AppNotification";
 import { Certificate } from "./Certificate";
 import { Registration } from "./Registration";
 import { RoleEnum } from "./User";
 import { v4 as uuidV4 } from "uuid";
 
 export class Participant extends User {
-    private activity:Activity[];
     private registration:Registration;
     private certificate:Certificate[];
+    private notification:AppNotification[] = [];
 
-    constructor(userId:string, name:string, email:string, password:string, role:RoleEnum, activity:Activity[], registration:Registration, certificate:Certificate[]){
+    // constructor(userId:string, name:string, email:string, password:string, role:RoleEnum, activity:Activity[], registration:Registration, certificate:Certificate[]){
+    constructor(userId:string, name:string, email:string, password:string, role:RoleEnum, registration:Registration, certificate:Certificate[]){
         super(userId, name, email, password, role);
-        this.activity = activity;
+        // this.activity = activity;
         this.registration = registration;
         this.certificate = certificate;
     }
@@ -26,15 +28,17 @@ export class Participant extends User {
         // this.registration.setStatus("pending");
         // const checkLimit = this.registration.
         // if(activity.getMaxParticipant <= )
-        const regisId = uuidV4();
-        new Registration(regisId, this, activity)
+        // const regisId = uuidV4();
+        // new Registration(regisId, this, activity)
+        activity.getRegistration()?.addParticipant(this);
     }
 
-    public searchActivity(keyword: string): Activity[] { // return Activity[]
-        return this.activity.filter(item => item.getActivityName().toLowerCase().includes(keyword.toLowerCase()));
+
+    public saveNotification(notification:AppNotification):void{
+        this.notification.push(notification);
     }
 
-    public downloadCertificate(activityId:number): Certificate | null {
+    public downloadCertificate(activityId:string): Certificate | null {
         const registrationActivity = this.registration.getActivity();
         if(!registrationActivity || registrationActivity.getActivityId() !== activityId){
             console.log("download failed.");

@@ -3,13 +3,14 @@ import { Participant } from "./Participant";
 
 export class Registration {
     private regisId: string;
-    private participant: Participant;
+    private participants: Participant[] = [];
     private activity: Activity;
     private status: string;
 
-    constructor(regisId:string, participant: Participant, activity:Activity) {
+    // constructor(regisId:string, participant: Participant, activity:Activity) {
+    constructor(regisId:string, activity:Activity) {
         this.regisId = regisId;
-        this.participant = participant;
+        // this.participant = participant;
         this.activity = activity;
         this.status = "wait";
     }
@@ -17,7 +18,7 @@ export class Registration {
     public toString():string {
         return `{
         regisId: ${this.regisId},
-        participant: ${this.participant},
+        participant: {${this.participants}},
         activity: ${this.activity},
         status: ${this.status}\n}`
     }
@@ -26,8 +27,12 @@ export class Registration {
         return this.activity;
     }
 
-    public setParticipant(participant:Participant):void {
-        this.participant = participant;
+    public addParticipant(participant:Participant):void {
+        if(this.participants.length > this.activity.getMaxParticipant()){
+            console.log("Limit!");
+            return;
+        }
+        this.participants.push(participant);
     }
 
     public setActivity(activity:Activity):void{
