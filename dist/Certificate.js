@@ -1,50 +1,36 @@
-import { Instructor } from "./Instructor";
-import { Activity } from './Activity';
-
-export class Certificate {
-    private cerId: string;
-    private issuer: Instructor;
-    private activity: Activity;
-    private signature: string;
-    private template: string;
-
-    constructor(cerId:string, issuer: Instructor, activity: Activity, sinature: string, template: string){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Certificate = void 0;
+class Certificate {
+    constructor(cerId, issuer, activity, sinature, template) {
         this.cerId = cerId;
         this.issuer = issuer;
         this.activity = activity;
         this.signature = sinature;
         this.template = template;
     }
-
-    public getCerId(): string {
+    getCerId() {
         return this.cerId;
     }
-
-    public getIssuer(): Instructor {
+    getIssuer() {
         return this.issuer;
     }
-
-    public getActivity(): Activity {
+    getActivity() {
         return this.activity;
     }
-
-    public getSignature(): string {
+    getSignature() {
         return this.signature;
     }
-
-    public getTemplate(): string {
+    getTemplate() {
         return this.template;
     }
-
-    public setSignature(signature: string): void {
+    setSignature(signature) {
         this.signature = signature;
     }
-
-    public setTemplate(template: string): void {
+    setTemplate(template) {
         this.template = template;
     }
-
-    public generateCertificate(): string {
+    generateCertificate() {
         return `
         Certificate ID: ${this.cerId}
         Issuer: ${this.issuer.getName()}
@@ -53,8 +39,8 @@ export class Certificate {
         Template: ${this.template}
         `;
     }
-
-    public sendNotification(email: string): void {
+    sendNotification(email) {
         console.log(`Notification sent to ${email} for certificate ${this.cerId}.`);
     }
 }
+exports.Certificate = Certificate;

@@ -7,12 +7,15 @@ exports.RoleEnum = RoleEnum;
 RoleEnum.INSTRUCTOR = "instructor";
 RoleEnum.STUDENT = "student";
 class User {
+    // constructor(userId:string, name:string, email:string, password:string, role:RoleEnum, activity:Activity[]){
     constructor(userId, name, email, password, role) {
+        this.activity = [];
         this.userId = userId;
         this.name = name;
         this.email = email;
         this.password = password;
         this.role = role;
+        // this.activity = activity;
     }
     getUserId() {
         return this.userId;
@@ -64,6 +67,9 @@ class User {
     }
     logout() {
         return false;
+    }
+    searchActivity(keyword) {
+        return this.activity.filter(item => item.getActivityName().toLowerCase().includes(keyword.toLowerCase()));
     }
     toString() {
         return `{
