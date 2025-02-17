@@ -12,18 +12,12 @@ export class User {
     private email: string;
     private password: string;
     private role:RoleEnum;
-    // private activity:Activity;
-    // private activity:Activity[] = [];
-
-    // constructor(userId:string, name:string, email:string, password:string, role:RoleEnum, activity:Activity[]){
     constructor(name:string, email:string, password:string, role:RoleEnum){
         this.userId = uuidV4();
         this.name = name;
         this.email = email;
         this.password = password;
         this.role = role;
-
-        // this.activity = activity;
     }
 
     public getUserId():string {
@@ -63,20 +57,15 @@ export class User {
     }
 
     public register(email:string, password:string):boolean {
-        // let randomId:number = Math.floor(Math.random() * 10)
-        // let mixId:string = "US" + randomId;
         if(email == "" || password == ""){
             return false;
         }
         this.email = email;
         this.password = password;
-        // const newUser = new User(mixId, "", email, password, RoleEnum.STUDENT);
         return true;
     }
 
     public login(email:string, password:string):boolean{
-        // let users:User[];
-        // let findUser = users.filter(item => console.log(item.getEmail()));
         if(email === this.email && password === this.password) {
             return true;
         }else{
@@ -86,10 +75,6 @@ export class User {
 
     public logout():boolean {
         return false;
-    }
-
-    public searchActivity(keyword: string): Activity[]{
-        return Activity.activities.filter(item => item.getActivityName().toLowerCase().includes(keyword.toLowerCase()));
     }
 
     public toString():string{

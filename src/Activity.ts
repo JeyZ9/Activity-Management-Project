@@ -2,6 +2,7 @@ import { Certificate } from "./Certificate";
 import { Instructor } from "./Instructor";
 import { Participant } from "./Participant";
 import { Registration } from "./Registration";
+import { v4 as uuidv4 } from "uuid";
 
 export class Activity {
     private activityId: string;
@@ -15,22 +16,22 @@ export class Activity {
     private certificateIssued: boolean;
     private schedule: File | null;
 
-    private instructor:Instructor;
-    private certificate:Certificate;
-    private registration:Registration | null;
-    private isDeleted:boolean;
+    // private instructor:Instructor;
+    // private certificate:Certificate;
+    // private registration:Registration | null;
+    // private isDeleted:boolean;
 
     public static activities:Activity[];
 
-    constructor(activityId: string, activityName: string, organizer: string, maxParticipant: number, activityPeriod: string, registrationPeriod: string, appovalRequest: boolean, certificateIssued: boolean, schedule: File | null, instructor: Instructor, certificate:Certificate, registration:Registration | null){
-        this.activityId = activityId;
+    constructor(activityName: string, organizer: string, maxParticipant: number, activityPeriod: string, registrationPeriod: string, approvalRequest: boolean, certificateIssued: boolean, schedule: File | null, instructor: Instructor, certificate:Certificate, registration:Registration | null){
+        this.activityId = uuidv4();
         this.activityName = activityName;
         this.organizer = organizer;
         this.maxParticipant = maxParticipant;
         this.activityPeriod = activityPeriod;
         this.registrationPeriod = registrationPeriod;
         this.status = "Pending";
-        this.approvalRequest = appovalRequest;
+        this.approvalRequest = approvalRequest;
         this.certificateIssued = certificateIssued;
         this.schedule = schedule;
     
@@ -120,6 +121,14 @@ export class Activity {
         this.schedule = file;
     }
 
+
+
+    
+
+
+
+
+
     // public createActivity():void {
         
     // }
@@ -168,6 +177,6 @@ export class Activity {
     // }
 
     public generateCertificate(participants: Participant[]):void {
-        
+
     }
 }
