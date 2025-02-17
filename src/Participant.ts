@@ -6,8 +6,12 @@ import { RoleEnum } from "./User";
 import { v4 as uuidV4 } from "uuid";
 
 export class Participant extends User {
-    constructor(userId:string, name:string, email:string, password:string, role:RoleEnum, registration:Registration, certificate:Certificate[]){
+    constructor(userId:string, name:string, email:string, password:string, role:RoleEnum){
         super(userId, name, email, password, role);
+    }
+
+    public getName():string {
+        return super.getName();
     }
 
     public getRegistration():Registration {

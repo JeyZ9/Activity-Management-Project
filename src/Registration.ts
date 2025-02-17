@@ -7,43 +7,26 @@ export class Registration {
     private activity: Activity;
     private status: string;
 
+    public static registrations:Registration[];
+
     constructor(regisId:string, activity:Activity, participant: Participant, status:string) {
-    // constructor(regisId:string, activity:Activity) {
         this.regisId = regisId;
         this.participant = participant;
         this.activity = activity;
         this.status = status;
+
+        Registration.registrations.push(this);
     }
 
-    // public toString():string {
-    //     return `{
-    //     regisId: ${this.regisId},
-    //     participant: {${this.participants}},
-    //     activity: ${this.activity},
-    //     status: ${this.status}\n}`
-    // }
+    public getParticipant():Participant{
+        return this.participant;
+    }
 
-    // public getActivity():Activity {
-    //     return this.activity;
-    // }
+    public getActivity():Activity {
+        return this.activity;
+    }
 
-    // public getParticipants():Participant[] {
-    //     return this.participants
-    // }
-
-    // public setActivity(activity:Activity):void{
-    //     this.activity = activity;
-    // }
-
-    // public setStatus(status:string):void {
-    //     this.status = status;
-    // }
-     
-    // public addParticipant(participant:Participant):void {
-    //     if(this.participants.length > this.activity.getMaxParticipant()){
-    //         console.log("Limit!");
-    //         return;
-    //     }
-    //     this.participants.push(participant);
-    // }
+    public setStatus(status:string):void {
+        this.status = status;
+    }
 }
