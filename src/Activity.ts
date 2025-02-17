@@ -141,6 +141,7 @@ export class Activity {
     }
 
     public generateCertificate():Certificate {
-        
+        // ใช้ function ใน certificate class 
+        // loop ตามจำนวนคนที่ผ่าน
     }
 }
