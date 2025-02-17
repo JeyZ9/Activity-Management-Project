@@ -22,6 +22,10 @@ export class Participant extends User {
         return this.registration;
     }
 
+    public getEmail():string {
+        return super.getEmail();
+    }
+
     public registerForActivity(activity:Activity):void {
         // this.registration.setParticipant(this);
         // this.registration.setActivity(activity);

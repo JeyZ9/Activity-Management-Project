@@ -1,5 +1,6 @@
 import { Instructor } from "./Instructor";
 import { Activity } from './Activity';
+import { AppNotification } from "./AppNotification";
 
 export class Certificate {
     private cerId: string;
@@ -55,6 +56,14 @@ export class Certificate {
     }
 
     public sendNotification(email: string): void {
-        console.log(`Notification sent to ${email} for certificate ${this.cerId}.`);
+        const findParticipantByEmail = this.activity.getRegistration()?.getParticipants().find(user => user.getEmail() == email)
+        if(!findParticipantByEmail){
+            console.log(`User with email ${email} not found!`);
+            return;
+        }
+        let randomId = Math.floor(Math.random() * 1000);
+        const newNotify = new AppNotification(randomId, findParticipantByEmail, "test")
+        findParticipantByEmail.saveNotification(newNotify);
+        // console.log(`Notification sent to ${email} for certificate ${this.cerId}.`);
     }
 }

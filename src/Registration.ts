@@ -27,12 +27,8 @@ export class Registration {
         return this.activity;
     }
 
-    public addParticipant(participant:Participant):void {
-        if(this.participants.length > this.activity.getMaxParticipant()){
-            console.log("Limit!");
-            return;
-        }
-        this.participants.push(participant);
+    public getParticipants():Participant[] {
+        return this.participants
     }
 
     public setActivity(activity:Activity):void{
@@ -43,4 +39,11 @@ export class Registration {
         this.status = status;
     }
      
+    public addParticipant(participant:Participant):void {
+        if(this.participants.length > this.activity.getMaxParticipant()){
+            console.log("Limit!");
+            return;
+        }
+        this.participants.push(participant);
+    }
 }

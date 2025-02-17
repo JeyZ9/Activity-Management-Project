@@ -20,6 +20,8 @@ export class Activity {
     private registration:Registration | null;
     private isDeleted:boolean;
 
+    public static activities:Activity[];
+
     constructor(activityId: string, activityName: string, organizer: string, maxParticipant: number, activityPeriod: string, registrationPeriod: string, appovalRequest: boolean, certificateIssued: boolean, schedule: File | null, instructor: Instructor, certificate:Certificate, registration:Registration | null){
         this.activityId = activityId;
         this.activityName = activityName;
@@ -36,6 +38,8 @@ export class Activity {
         this.certificate = certificate;
         this.isDeleted = false;
         this.registration = registration ?? null;
+
+        Activity.activities.push(this);
     }
 
      // Getters
@@ -156,7 +160,14 @@ export class Activity {
         participants.forEach(item => item.getRegistration().setStatus("pass"));
     }
 
-    public generateCertificate(participants: Participant[]):void {
+    
+    // public static searchActivity(keyword: string): Activity[] {
+    //     return Activity.activities.filter(item => 
+    //         item.activityName.toLowerCase().includes(keyword.toLowerCase()) 
+    //     );
+    // }
 
+    public generateCertificate(participants: Participant[]):void {
+        
     }
 }

@@ -9,8 +9,8 @@ export class Instructor extends User {
     // private certificate: Certificate;
 
     // constructor(userId:string, name:string, email:string, password:string, role:RoleEnum,activity: Activity[], certificate:Certificate){
-    constructor(userId:string, name:string, email:string, password:string, role:RoleEnum){
-        super(userId, name, email, password, role);
+    constructor(name:string, email:string, password:string, role:RoleEnum){
+        super(name, email, password, role);
         // this.activity = activity;
         // this.certificate = certificate;
     }

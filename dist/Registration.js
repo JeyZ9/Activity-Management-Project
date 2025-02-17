@@ -20,18 +20,21 @@ class Registration {
     getActivity() {
         return this.activity;
     }
-    addParticipant(participant) {
-        if (this.participants.length > this.activity.getMaxParticipant()) {
-            console.log("Limit!");
-            return;
-        }
-        this.participants.push(participant);
+    getParticipants() {
+        return this.participants;
     }
     setActivity(activity) {
         this.activity = activity;
     }
     setStatus(status) {
         this.status = status;
+    }
+    addParticipant(participant) {
+        if (this.participants.length > this.activity.getMaxParticipant()) {
+            console.log("Limit!");
+            return;
+        }
+        this.participants.push(participant);
     }
 }
 exports.Registration = Registration;

@@ -1,16 +1,19 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.User = exports.RoleEnum = void 0;
+const Activity_1 = require("./Activity");
+const uuid_1 = require("uuid");
 class RoleEnum {
 }
 exports.RoleEnum = RoleEnum;
 RoleEnum.INSTRUCTOR = "instructor";
 RoleEnum.STUDENT = "student";
 class User {
+    // private activity:Activity;
+    // private activity:Activity[] = [];
     // constructor(userId:string, name:string, email:string, password:string, role:RoleEnum, activity:Activity[]){
-    constructor(userId, name, email, password, role) {
-        this.activity = [];
-        this.userId = userId;
+    constructor(name, email, password, role) {
+        this.userId = (0, uuid_1.v4)();
         this.name = name;
         this.email = email;
         this.password = password;
@@ -69,7 +72,7 @@ class User {
         return false;
     }
     searchActivity(keyword) {
-        return this.activity.filter(item => item.getActivityName().toLowerCase().includes(keyword.toLowerCase()));
+        return Activity_1.Activity.activities.filter(item => item.getActivityName().toLowerCase().includes(keyword.toLowerCase()));
     }
     toString() {
         return `{
