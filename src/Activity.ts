@@ -137,7 +137,7 @@ export class Activity {
                 }
             }
         }
-        // Registration.registrations.forEach(regis => regis.getActivity() == this && participant == regis.getParticipant() && regis.setStatus("approved"));
+        // Registration.registrations.forEach(regis => regis.setStatus("approved"));
     }
 
     public generateCertificate():Certificate {
