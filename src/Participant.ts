@@ -1,21 +1,15 @@
 import { Activity } from "./Activity";
-import { AppNotification } from "./AppNotification";
-import { Certificate } from "./Certificate";
 import { Registration } from "./Registration";
-import { RoleEnum } from "./User";
+import { RoleEnum, User } from "./User";
 import { v4 as uuidV4 } from "uuid";
 
 export class Participant extends User {
-    constructor(userId:string, name:string, email:string, password:string, role:RoleEnum){
-        super(userId, name, email, password, role);
+    constructor(name:string, email:string, password:string, role:RoleEnum){
+        super(name, email, password, role);
     }
 
     public getName():string {
         return super.getName();
-    }
-
-    public getRegistration():Registration {
-        return this.registration;
     }
 
     public getEmail():string {

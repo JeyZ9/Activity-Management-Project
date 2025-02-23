@@ -15,26 +15,26 @@ export class Activity {
     private approvalRequest: boolean;
     private certificateIssued: boolean;
     private schedule: File | null;
+    private instructor:Instructor;
+    private certificate:Certificate;
     private isDeleted:boolean;
 
     public static activities:Activity[];
 
-    constructor(activityName: string, organizer: string, maxParticipant: number, activityPeriod: string, registrationPeriod: string, status:boolean, approvalRequest: boolean, certificateIssued: boolean, schedule: File | null){
+    constructor(activityName:string, organizer:string, maxParticipant:number, activityPreiod:string, registrationPeriod:string, approvalRequest:boolean, status:boolean, certificateIssued:boolean, instructor:Instructor, certificate:Certificate, schedule:File | null,){
         this.activityId = uuidv4();
         this.activityName = activityName;
         this.organizer = organizer;
         this.maxParticipant = maxParticipant;
-        this.activityPeriod = activityPeriod;
+        this.activityPeriod = activityPreiod;
         this.registrationPeriod = registrationPeriod;
         this.status = status;
         this.approvalRequest = approvalRequest;
-        this.certificateIssued = certificateIssued;
-        this.schedule = schedule;
-    
-        // this.instructor = instructor;
-        // this.certificate = certificate;
+        this.certificateIssued = certificateIssued;    
         this.isDeleted = false;
-        // this.registration = registration ?? null;
+        this.instructor = instructor;
+        this.certificate = certificate;
+        this.schedule = schedule;
 
         Activity.activities.push(this);
     }
@@ -105,11 +105,11 @@ export class Activity {
         this.schedule = file;
     }
 
-    public createActivity(activityName: string, organizer: string, maxParticipant: number, activityPeriod: string, registrationPeriod: string, status:boolean, approvalRequest: boolean, certificateIssued: boolean, schedule: File | null):Activity {
-        return new Activity(activityName, organizer, maxParticipant, activityPeriod, registrationPeriod, status, approvalRequest, certificateIssued, null);
+    public createActivity(activityName: string, organizer: string, maxParticipant: number, activityPeriod: string, registrationPeriod: string, status:boolean, approvalRequest: boolean, certificateIssued: boolean, instructor:Instructor, certificate:Certificate, schedule: File | null):Activity {
+        return new Activity(activityName, organizer, maxParticipant, activityPeriod, registrationPeriod, status, approvalRequest, certificateIssued, instructor, certificate, null);
     }
 
-    public updateActivity(activityName: string, organizer: string, maxParticipant: number, activityPeriod: string, registrationPeriod: string, status:boolean, approvalRequest: boolean, certificateIssued: boolean, schedule: File | null):void {
+    public updateActivity(activityName: string, organizer: string, maxParticipant: number, activityPeriod: string, registrationPeriod: string, status:boolean, approvalRequest: boolean, certificateIssued: boolean, instructor:Instructor, certificate:Certificate, schedule: File | null):void {
         this.activityName = activityName;
         this.organizer = organizer;
         this.maxParticipant = maxParticipant;
@@ -117,7 +117,10 @@ export class Activity {
         this.registrationPeriod = registrationPeriod;
         this.status = status;
         this.approvalRequest = approvalRequest;
-        this.certificateIssued = certificateIssued;
+        this.certificateIssued = certificateIssued;    
+        this.isDeleted = false;
+        this.instructor = instructor;
+        this.certificate = certificate;
         this.schedule = schedule;
     }
 
@@ -140,8 +143,11 @@ export class Activity {
         // Registration.registrations.forEach(regis => regis.setStatus("approved"));
     }
 
-    public generateCertificate():Certificate {
+    public generateCertificate(participants:Participant[]):void {
         // ใช้ function ใน certificate class 
         // loop ตามจำนวนคนที่ผ่าน
+        for(let i=0; i<participants.length; i++){
+            this.certificate.generateCertificate("cer1", this.instructor, participants[i], this, "", "");
+        }
     }
 }
