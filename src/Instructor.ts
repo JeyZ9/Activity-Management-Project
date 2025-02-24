@@ -1,18 +1,14 @@
 import { Activity } from "./Activity";
 import { Certificate } from "./Certificate";
+import { Participant } from "./Participant";
 import { RoleEnum, User } from "./User";
 import { v4 as uuidv4 } from "uuid"
 
 export class Instructor extends User {
-    // private activity: Activity[] = [];
-    // private activity: Activity[];
-    // private certificate: Certificate;
 
-    // constructor(userId:string, name:string, email:string, password:string, role:RoleEnum,activity: Activity[], certificate:Certificate){
-    constructor(userId:string, name:string, email:string, password:string, role:RoleEnum){
-        super(userId, name, email, password, role);
-        // this.activity = activity;
-        // this.certificate = certificate;
+    constructor(name:string, email:string, password:string, role:RoleEnum){
+        super(name, email, password, role);
+
     }
 
     public getName():string {
@@ -20,18 +16,14 @@ export class Instructor extends User {
     }
 
     public createActivity(activityName:string, organizer:string, maxParticipant:number, activityPreiod:string, registrationPreiod:string, approvalRequest:boolean, certificateIssued:boolean, schedule:File | null, certificate:Certificate):Activity {
-        let uuid = uuidv4();
-        const newActivity = new Activity(uuid, activityName, organizer, maxParticipant, activityPreiod, registrationPreiod, approvalRequest, certificateIssued, schedule, this, certificate, null);
+
+        const newActivity = new Activity(activityName, organizer, maxParticipant, activityPreiod, registrationPreiod, approvalRequest, certificateIssued, true, this, certificate, schedule);
         return newActivity;
     }
-
-    // public searchActivity(keyword: string): Activity[] {
-    //     return this.activity.filter(item => item.getActivityName().toLowerCase().includes(keyword.toLowerCase()));
-    // }
-
-    public issueCertificate(activity:Activity, sinature:string, template:string):Certificate {
-        let uuid = uuidv4();
-        return new Certificate(uuid, this, activity, sinature, template);
+    
+    public issueCertificate(participant:Participant, activity:Activity, sinature:string, template:string):Certificate {
+        
+        return new Certificate(uuidv4(), this, participant, activity, sinature, template);
     }
 
 }

@@ -2,6 +2,7 @@ import { Certificate } from "./Certificate";
 import { Instructor } from "./Instructor";
 import { Participant } from "./Participant";
 import { Registration } from "./Registration";
+import { v4 as uuidv4 } from "uuid";
 
 export class Activity {
     private activityId: string;
@@ -10,32 +11,32 @@ export class Activity {
     private maxParticipant: number;
     private activityPeriod: string;
     private registrationPeriod: string;
-    private status: string;
+    private status: boolean;
     private approvalRequest: boolean;
     private certificateIssued: boolean;
     private schedule: File | null;
-
     private instructor:Instructor;
     private certificate:Certificate;
-    private registration:Registration | null;
     private isDeleted:boolean;
 
-    constructor(activityId: string, activityName: string, organizer: string, maxParticipant: number, activityPeriod: string, registrationPeriod: string, appovalRequest: boolean, certificateIssued: boolean, schedule: File | null, instructor: Instructor, certificate:Certificate, registration:Registration | null){
-        this.activityId = activityId;
+    public static activities:Activity[];
+
+    constructor(activityName:string, organizer:string, maxParticipant:number, activityPreiod:string, registrationPeriod:string, approvalRequest:boolean, status:boolean, certificateIssued:boolean, instructor:Instructor, certificate:Certificate, schedule:File | null,){
+        this.activityId = uuidv4();
         this.activityName = activityName;
         this.organizer = organizer;
         this.maxParticipant = maxParticipant;
-        this.activityPeriod = activityPeriod;
+        this.activityPeriod = activityPreiod;
         this.registrationPeriod = registrationPeriod;
-        this.status = "Pending";
-        this.approvalRequest = appovalRequest;
-        this.certificateIssued = certificateIssued;
-        this.schedule = schedule;
-    
+        this.status = status;
+        this.approvalRequest = approvalRequest;
+        this.certificateIssued = certificateIssued;    
+        this.isDeleted = false;
         this.instructor = instructor;
         this.certificate = certificate;
-        this.isDeleted = false;
-        this.registration = registration ?? null;
+        this.schedule = schedule;
+
+        Activity.activities.push(this);
     }
 
      // Getters
@@ -63,7 +64,7 @@ export class Activity {
         return this.registrationPeriod;
     }
 
-    public getStatus(): string {
+    public getStatus(): boolean {
         return this.status;
     }
 
@@ -79,18 +80,6 @@ export class Activity {
         return this.schedule;
     }
 
-    public getInstructor():Instructor {
-        return this.instructor;
-    }
-
-    public getCertificate():Certificate {
-        return this.certificate;
-    }
-
-    public getRegistration():Registration | null{
-        return this.registration;
-    }
-
     // Setters
     public setActivityName(name: string): void {
         this.activityName = name;
@@ -100,7 +89,7 @@ export class Activity {
         this.maxParticipant = limit;
     }
 
-    public setStatus(status: string): void {
+    public setStatus(status: boolean): void {
         this.status = status;
     }
 
@@ -116,47 +105,49 @@ export class Activity {
         this.schedule = file;
     }
 
-    // public createActivity():void {
-        
-    // }
+    public createActivity(activityName: string, organizer: string, maxParticipant: number, activityPeriod: string, registrationPeriod: string, status:boolean, approvalRequest: boolean, certificateIssued: boolean, instructor:Instructor, certificate:Certificate, schedule: File | null):Activity {
+        return new Activity(activityName, organizer, maxParticipant, activityPeriod, registrationPeriod, status, approvalRequest, certificateIssued, instructor, certificate, null);
+    }
 
-    public updateActivity(activityId:string, activityName:string, organizer:string, maxParticipant:number):Activity | null {
-        // const activity = new Activity()
-        if(this.activityId !== activityId){
-            console.error(`Activity with ID ${activityId} not found!`);
-            return null;
-        }
+    public updateActivity(activityName: string, organizer: string, maxParticipant: number, activityPeriod: string, registrationPeriod: string, status:boolean, approvalRequest: boolean, certificateIssued: boolean, instructor:Instructor, certificate:Certificate, schedule: File | null):void {
         this.activityName = activityName;
         this.organizer = organizer;
         this.maxParticipant = maxParticipant;
-        return this;
+        this.activityPeriod = activityPeriod;
+        this.registrationPeriod = registrationPeriod;
+        this.status = status;
+        this.approvalRequest = approvalRequest;
+        this.certificateIssued = certificateIssued;    
+        this.isDeleted = false;
+        this.instructor = instructor;
+        this.certificate = certificate;
+        this.schedule = schedule;
     }
 
-    public publishActivity(): void {
-        if (this.status !== "published") {
-            this.status = "published";
-            console.log(`Activity "${this.activityName}" has been published.`);
-        } else {
-            console.log(`Activity "${this.activityName}" is already published.`);
-        }
+    public publishActivity():void {
+        this.status = true;
     }
 
-    public deleteActivity(): void {
-        if (this.isDeleted) {
-            console.log(`Activity "${this.activityName}" has already been deleted.`);
-            return;
-        }
-    
+    public deleteActivity():void {
         this.isDeleted = true;
-        console.log(`Activity "${this.activityName}" has been successfully deleted.`);
     }
 
-    public approveParticipant(participants: Participant[]):void {
-        // const participant = participants.map(item => item.getRegistration().getActivity().requestApproval(true));
-        participants.forEach(item => item.getRegistration().setStatus("pass"));
+    public approveParticipant(participants:Participant[]):void {
+        for(let i=0; i<Registration.registrations.length; i++){
+            for(let j=0; j<participants.length; j++){
+                if(Registration.registrations[i].getParticipant().getName() === participants[j].getName()){
+                    Registration.registrations[i].setStatus("approved");
+                }
+            }
+        }
+        // Registration.registrations.forEach(regis => regis.setStatus("approved"));
     }
 
-    public generateCertificate(participants: Participant[]):void {
-
+    public generateCertificate(participants:Participant[]):void {
+        // ใช้ function ใน certificate class 
+        // loop ตามจำนวนคนที่ผ่าน
+        for(let i=0; i<participants.length; i++){
+            this.certificate.generateCertificate("cer1", this.instructor, participants[i], this, "", "");
+        }
     }
 }

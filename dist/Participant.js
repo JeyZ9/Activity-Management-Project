@@ -15,15 +15,19 @@ class Participant extends User {
     getRegistration() {
         return this.registration;
     }
+    getEmail() {
+        return super.getEmail();
+    }
     registerForActivity(activity) {
+        var _a;
         // this.registration.setParticipant(this);
         // this.registration.setActivity(activity);
         // this.registration.setStatus("pending");
         // const checkLimit = this.registration.
         // if(activity.getMaxParticipant <= )
-        const regisId = (0, uuid_1.v4)();
+        // const regisId = uuidV4();
         // new Registration(regisId, this, activity)
-        activity.getRe;
+        (_a = activity.getRegistration()) === null || _a === void 0 ? void 0 : _a.addParticipant(this);
     }
     saveNotification(notification) {
         this.notification.push(notification);

@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Certificate = void 0;
+const AppNotification_1 = require("./AppNotification");
 class Certificate {
     constructor(cerId, issuer, activity, sinature, template) {
         this.cerId = cerId;
@@ -40,7 +41,16 @@ class Certificate {
         `;
     }
     sendNotification(email) {
-        console.log(`Notification sent to ${email} for certificate ${this.cerId}.`);
+        var _a;
+        const findParticipantByEmail = (_a = this.activity.getRegistration()) === null || _a === void 0 ? void 0 : _a.getParticipants().find(user => user.getEmail() == email);
+        if (!findParticipantByEmail) {
+            console.log(`User with email ${email} not found!`);
+            return;
+        }
+        let randomId = Math.floor(Math.random() * 1000);
+        const newNotify = new AppNotification_1.AppNotification(randomId, findParticipantByEmail, "test");
+        findParticipantByEmail.saveNotification(newNotify);
+        // console.log(`Notification sent to ${email} for certificate ${this.cerId}.`);
     }
 }
 exports.Certificate = Certificate;

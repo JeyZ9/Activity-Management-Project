@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Activity = void 0;
 class Activity {
-    constructor(activityId, activityName, organizer, maxParticipant, activityPeriod, registrationPeriod, appovalRequest, certificateIssued, schedule, instructor, certificate) {
+    constructor(activityId, activityName, organizer, maxParticipant, activityPeriod, registrationPeriod, appovalRequest, certificateIssued, schedule, instructor, certificate, registration) {
         this.activityId = activityId;
         this.activityName = activityName;
         this.organizer = organizer;
@@ -16,6 +16,8 @@ class Activity {
         this.instructor = instructor;
         this.certificate = certificate;
         this.isDeleted = false;
+        this.registration = registration !== null && registration !== void 0 ? registration : null;
+        Activity.activities.push(this);
     }
     // Getters
     getActivityId() {
@@ -53,6 +55,9 @@ class Activity {
     }
     getCertificate() {
         return this.certificate;
+    }
+    getRegistration() {
+        return this.registration;
     }
     // Setters
     setActivityName(name) {
@@ -107,6 +112,11 @@ class Activity {
         // const participant = participants.map(item => item.getRegistration().getActivity().requestApproval(true));
         participants.forEach(item => item.getRegistration().setStatus("pass"));
     }
+    // public static searchActivity(keyword: string): Activity[] {
+    //     return Activity.activities.filter(item => 
+    //         item.activityName.toLowerCase().includes(keyword.toLowerCase()) 
+    //     );
+    // }
     generateCertificate(participants) {
     }
 }

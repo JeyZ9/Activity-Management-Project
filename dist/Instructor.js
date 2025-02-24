@@ -10,8 +10,8 @@ class Instructor extends User_1.User {
     // private activity: Activity[];
     // private certificate: Certificate;
     // constructor(userId:string, name:string, email:string, password:string, role:RoleEnum,activity: Activity[], certificate:Certificate){
-    constructor(userId, name, email, password, role) {
-        super(userId, name, email, password, role);
+    constructor(name, email, password, role) {
+        super(name, email, password, role);
         // this.activity = activity;
         // this.certificate = certificate;
     }
@@ -20,7 +20,7 @@ class Instructor extends User_1.User {
     }
     createActivity(activityName, organizer, maxParticipant, activityPreiod, registrationPreiod, approvalRequest, certificateIssued, schedule, certificate) {
         let uuid = (0, uuid_1.v4)();
-        const newActivity = new Activity_1.Activity(uuid, activityName, organizer, maxParticipant, activityPreiod, registrationPreiod, approvalRequest, certificateIssued, schedule, this, certificate);
+        const newActivity = new Activity_1.Activity(uuid, activityName, organizer, maxParticipant, activityPreiod, registrationPreiod, approvalRequest, certificateIssued, schedule, this, certificate, null);
         return newActivity;
     }
     // public searchActivity(keyword: string): Activity[] {

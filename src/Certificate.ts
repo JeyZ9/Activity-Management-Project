@@ -1,20 +1,25 @@
 import { Instructor } from "./Instructor";
 import { Activity } from './Activity';
+import { AppNotification } from "./AppNotification";
+import { Participant } from "./Participant";
+import { v4 as uuidv4 } from "uuid";
 
 export class Certificate {
     private cerId: string;
     private issuer: Instructor;
+    private participant: Participant;
     private activity: Activity;
     private signature: string;
     private template: string;
 
-    constructor(cerId:string, issuer: Instructor, activity: Activity, sinature: string, template: string){
+    constructor(cerId:string, issuer: Instructor, participant:Participant, activity: Activity, signature: string, template: string){
         this.cerId = cerId;
         this.issuer = issuer;
+        this.participant = participant;
         this.activity = activity;
-        this.signature = sinature;
+        this.signature = signature;
         this.template = template;
-    }
+    }  
 
     public getCerId(): string {
         return this.cerId;
@@ -44,17 +49,11 @@ export class Certificate {
         this.template = template;
     }
 
-    public generateCertificate(): string {
-        return `
-        Certificate ID: ${this.cerId}
-        Issuer: ${this.issuer.getName()}
-        Activity: ${this.activity.getActivityName()}
-        Signature: ${this.signature}
-        Template: ${this.template}
-        `;
+    public generateCertificate(cerId:string, issuer: Instructor, participant:Participant, activity: Activity, signature: string, template: string): Certificate {
+        return new Certificate(cerId, issuer, participant, activity, signature, template);
     }
 
-    public sendNotification(email: string): void {
-        console.log(`Notification sent to ${email} for certificate ${this.cerId}.`);
+    public sendNotification(): AppNotification {
+        return new AppNotification(uuidv4(), this.participant, "เกียรติบัตรพร้อมให้สำหรับการดาวน์โหลดแล้ว", "approved")
     }
 }
