@@ -80,6 +80,10 @@ export class Activity {
         return this.schedule;
     }
 
+    public getInstructor():Instructor {
+        return this.instructor;
+    }
+
     // Setters
     public setActivityName(name: string): void {
         this.activityName = name;
