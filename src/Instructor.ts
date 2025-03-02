@@ -6,6 +6,8 @@ import { v4 as uuidv4 } from "uuid"
 
 export class Instructor extends User {
 
+    // private activity:Activity;
+
     constructor(name:string, email:string, password:string, role:RoleEnum){
         super(name, email, password, role);
 
@@ -21,9 +23,19 @@ export class Instructor extends User {
         return newActivity;
     }
     
+    public approveParticipant(activity:Activity, paticipant:Participant[]):void {
+        if(activity.getInstructor().getName() === this.getName()){
+            activity.approveParticipant(paticipant);
+        }
+    }
+
     public issueCertificate(participant:Participant, activity:Activity, sinature:string, template:string):Certificate {
         
         return new Certificate(uuidv4(), this, participant, activity, sinature, template);
+    }
+
+    public searchActivity(keyword: string): Activity[]{
+        return Activity.activities.filter(item => item.getActivityName().toLowerCase().includes(keyword.toLowerCase()));
     }
 
 }
