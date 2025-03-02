@@ -1,22 +1,23 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Activity = void 0;
+const Registration_1 = require("./Registration");
+const uuid_1 = require("uuid");
 class Activity {
-    constructor(activityId, activityName, organizer, maxParticipant, activityPeriod, registrationPeriod, appovalRequest, certificateIssued, schedule, instructor, certificate, registration) {
-        this.activityId = activityId;
+    constructor(activityName, organizer, maxParticipant, activityPreiod, registrationPeriod, approvalRequest, status, certificateIssued, instructor, certificate, schedule) {
+        this.activityId = (0, uuid_1.v4)();
         this.activityName = activityName;
         this.organizer = organizer;
         this.maxParticipant = maxParticipant;
-        this.activityPeriod = activityPeriod;
+        this.activityPeriod = activityPreiod;
         this.registrationPeriod = registrationPeriod;
-        this.status = "Pending";
-        this.approvalRequest = appovalRequest;
+        this.status = status;
+        this.approvalRequest = approvalRequest;
         this.certificateIssued = certificateIssued;
-        this.schedule = schedule;
+        this.isDeleted = false;
         this.instructor = instructor;
         this.certificate = certificate;
-        this.isDeleted = false;
-        this.registration = registration !== null && registration !== void 0 ? registration : null;
+        this.schedule = schedule;
         Activity.activities.push(this);
     }
     // Getters
@@ -53,12 +54,6 @@ class Activity {
     getInstructor() {
         return this.instructor;
     }
-    getCertificate() {
-        return this.certificate;
-    }
-    getRegistration() {
-        return this.registration;
-    }
     // Setters
     setActivityName(name) {
         this.activityName = name;
@@ -78,46 +73,45 @@ class Activity {
     uploadSchedule(file) {
         this.schedule = file;
     }
-    // public createActivity():void {
-    // }
-    updateActivity(activityId, activityName, organizer, maxParticipant) {
-        // const activity = new Activity()
-        if (this.activityId !== activityId) {
-            console.error(`Activity with ID ${activityId} not found!`);
-            return null;
-        }
+    createActivity(activityName, organizer, maxParticipant, activityPeriod, registrationPeriod, status, approvalRequest, certificateIssued, instructor, certificate, schedule) {
+        return new Activity(activityName, organizer, maxParticipant, activityPeriod, registrationPeriod, status, approvalRequest, certificateIssued, instructor, certificate, null);
+    }
+    updateActivity(activityName, organizer, maxParticipant, activityPeriod, registrationPeriod, status, approvalRequest, certificateIssued, instructor, certificate, schedule) {
         this.activityName = activityName;
         this.organizer = organizer;
         this.maxParticipant = maxParticipant;
-        return this;
+        this.activityPeriod = activityPeriod;
+        this.registrationPeriod = registrationPeriod;
+        this.status = status;
+        this.approvalRequest = approvalRequest;
+        this.certificateIssued = certificateIssued;
+        this.isDeleted = false;
+        this.instructor = instructor;
+        this.certificate = certificate;
+        this.schedule = schedule;
     }
     publishActivity() {
-        if (this.status !== "published") {
-            this.status = "published";
-            console.log(`Activity "${this.activityName}" has been published.`);
-        }
-        else {
-            console.log(`Activity "${this.activityName}" is already published.`);
-        }
+        this.status = true;
     }
     deleteActivity() {
-        if (this.isDeleted) {
-            console.log(`Activity "${this.activityName}" has already been deleted.`);
-            return;
-        }
         this.isDeleted = true;
-        console.log(`Activity "${this.activityName}" has been successfully deleted.`);
     }
     approveParticipant(participants) {
-        // const participant = participants.map(item => item.getRegistration().getActivity().requestApproval(true));
-        participants.forEach(item => item.getRegistration().setStatus("pass"));
+        for (let i = 0; i < Registration_1.Registration.registrations.length; i++) {
+            for (let j = 0; j < participants.length; j++) {
+                if (Registration_1.Registration.registrations[i].getParticipant().getName() === participants[j].getName()) {
+                    Registration_1.Registration.registrations[i].setStatus("approved");
+                }
+            }
+        }
+        // Registration.registrations.forEach(regis => regis.setStatus("approved"));
     }
-    // public static searchActivity(keyword: string): Activity[] {
-    //     return Activity.activities.filter(item => 
-    //         item.activityName.toLowerCase().includes(keyword.toLowerCase()) 
-    //     );
-    // }
     generateCertificate(participants) {
+        // ใช้ function ใน certificate class 
+        // loop ตามจำนวนคนที่ผ่าน
+        for (let i = 0; i < participants.length; i++) {
+            this.certificate.generateCertificate("cer1", this.instructor, participants[i], this, "", "");
+        }
     }
 }
 exports.Activity = Activity;
