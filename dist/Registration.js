@@ -2,39 +2,21 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Registration = void 0;
 class Registration {
-    // constructor(regisId:string, participant: Participant, activity:Activity) {
-    constructor(regisId, activity) {
-        this.participants = [];
+    constructor(regisId, activity, participant, status) {
         this.regisId = regisId;
-        // this.participant = participant;
+        this.participant = participant;
         this.activity = activity;
-        this.status = "wait";
+        this.status = status;
+        Registration.registrations.push(this);
     }
-    toString() {
-        return `{
-        regisId: ${this.regisId},
-        participant: {${this.participants}},
-        activity: ${this.activity},
-        status: ${this.status}\n}`;
+    getParticipant() {
+        return this.participant;
     }
     getActivity() {
         return this.activity;
     }
-    getParticipants() {
-        return this.participants;
-    }
-    setActivity(activity) {
-        this.activity = activity;
-    }
     setStatus(status) {
         this.status = status;
-    }
-    addParticipant(participant) {
-        if (this.participants.length > this.activity.getMaxParticipant()) {
-            console.log("Limit!");
-            return;
-        }
-        this.participants.push(participant);
     }
 }
 exports.Registration = Registration;
